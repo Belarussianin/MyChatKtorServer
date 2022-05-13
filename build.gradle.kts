@@ -10,6 +10,10 @@ plugins {
                 id("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
 }
 
+tasks {
+    create("stage").dependsOn("build", "clean").mustRunAfter("clean")
+}
+
 group = "com.example"
 version = "0.0.1"
 application {

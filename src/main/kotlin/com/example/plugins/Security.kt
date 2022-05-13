@@ -9,7 +9,7 @@ import io.ktor.util.*
 fun Application.configureSecurity() {
     install(Sessions) {
         cookie<ChatSession>("SESSION") {
-            cookie.secure = true
+            //cookie.secure = true
         }
     }
 
