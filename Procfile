@@ -1,1 +1,1 @@
-web: ./build/install/ktor-chat/bin/ktor-chat
+web: ./build/install/com.example.ktor-chat/bin/com.example.ktor-chat
