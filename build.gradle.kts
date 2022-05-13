@@ -5,13 +5,20 @@ val kmongo_version: String by project
 val koin_version: String by project
 
 plugins {
+    java
     application
     kotlin("jvm") version "1.6.21"
                 id("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
 }
 
-tasks {
-    create("stage").dependsOn("build", "clean").mustRunAfter("clean")
+tasks.create("stage").dependsOn("installDist")
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.compileKotlin {
+    kotlinOptions.jvmTarget = "11"
 }
 
 group = "com.example"
@@ -24,7 +31,14 @@ application {
 }
 
 repositories {
-    mavenCentral()
+    mavenCentral {
+        metadataSources {
+            mavenPom()
+            artifact()
+            ignoreGradleMetadataRedirection()
+        }
+    }
+    google()
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
