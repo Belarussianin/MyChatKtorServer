@@ -9,7 +9,7 @@ import org.litote.kmongo.reactivestreams.KMongo
 
 val mainModule = module {
     single {
-        KMongo.createClient()
+        KMongo.createClient("mongodb://mongo:pE5gxtbPAOzZMCevN4As@containers-us-west-60.railway.app:6100")
             .coroutine
             .getDatabase("message_db")
     }
