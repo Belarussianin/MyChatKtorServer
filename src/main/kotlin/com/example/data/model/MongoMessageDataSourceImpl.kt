@@ -1,5 +1,7 @@
 package com.example.data.model
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.litote.kmongo.coroutine.CoroutineDatabase
 
 class MongoMessageDataSourceImpl(
@@ -9,12 +11,16 @@ class MongoMessageDataSourceImpl(
     private val messages = db.getCollection<Message>()
 
     override suspend fun getAllMessages(): List<Message> {
-        return messages.find()
-            .descendingSort(Message::timestamp)
-            .toList()
+        return withContext(Dispatchers.IO) {
+            messages.find()
+                .descendingSort(Message::timestamp)
+                .toList()
+        }
     }
 
     override suspend fun insertMessage(message: Message) {
-        messages.insertOne(message)
+        withContext(Dispatchers.IO) {
+            messages.insertOne(message)
+        }
     }
 }
