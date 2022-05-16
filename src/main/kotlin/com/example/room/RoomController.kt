@@ -27,15 +27,15 @@ class RoomController(
         senderUsername: String,
         message: String
     ) {
-        members.values.forEach { member ->
-            val messageEntity = Message(
-                text = message,
-                username = senderUsername,
-                timestamp = System.currentTimeMillis()
-            )
-            messageDataSource.insertMessage(messageEntity)
+        val messageEntity = Message(
+            text = message,
+            username = senderUsername,
+            timestamp = System.currentTimeMillis()
+        )
+        messageDataSource.insertMessage(messageEntity)
+        val parseMessage = Json.encodeToString(messageEntity)
 
-            val parseMessage = Json.encodeToString(messageEntity)
+        members.values.forEach { member ->
             member.socket.send(Frame.Text(parseMessage))
         }
     }
