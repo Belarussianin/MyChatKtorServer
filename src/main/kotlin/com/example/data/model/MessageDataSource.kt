@@ -6,6 +6,7 @@ interface MessageDataSource {
 
     suspend fun insertMessage(message: Message)
 
-    //Todo
-    //suspend fun deleteMessage(message: Message)
+    suspend fun deleteMessage(message: Message)
+
+    suspend fun editMessage(message: Message)
 }
