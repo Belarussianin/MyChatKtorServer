@@ -2,9 +2,7 @@ package com.example.room
 
 import com.example.data.model.Message
 import com.example.data.model.MessageDataSource
-import io.ktor.websocket.WebSocketSession
-import io.ktor.websocket.close
-import io.ktor.websocket.Frame
+import io.ktor.websocket.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentHashMap
@@ -34,8 +32,12 @@ class RoomController(
             username = senderUsername,
             timestamp = System.currentTimeMillis()
         )
-        messageDataSource.insertMessage(messageEntity)
-        val parseMessage = Json.encodeToString(messageEntity)
+        sendMessage(messageEntity)
+    }
+
+    suspend fun sendMessage(message: Message) {
+        messageDataSource.insertMessage(message)
+        val parseMessage = Json.encodeToString(message)
 
         members.values.forEach { member ->
             member.socket.send(Frame.Text(parseMessage))

@@ -7,6 +7,4 @@ interface MessageDataSource {
     suspend fun insertMessage(message: Message)
 
     suspend fun deleteMessage(message: Message)
-
-    suspend fun editMessage(message: Message)
 }

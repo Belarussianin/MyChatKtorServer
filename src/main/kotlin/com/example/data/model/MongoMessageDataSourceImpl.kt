@@ -19,20 +19,14 @@ class MongoMessageDataSourceImpl(
     }
 
     override suspend fun insertMessage(message: Message) {
-        withContext(Dispatchers.IO) {
-            messages.insertOne(message)
-        }
+
+            messages.findOneAndReplace(message.id, message) ?: messages.insertOne(message)
+
     }
 
     override suspend fun deleteMessage(message: Message) {
         withContext(Dispatchers.IO) {
             messages.deleteOneById(message)
-        }
-    }
-
-    override suspend fun editMessage(message: Message) {
-        withContext(Dispatchers.IO) {
-            messages.replaceOneById(message.id, message)
         }
     }
 }
